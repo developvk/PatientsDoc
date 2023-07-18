@@ -1,0 +1,62 @@
+
+<div class="main-container">
+  <div class="container-form">
+    <div class="container-reg col-md-6 text-center">
+      <div class="form-registration">
+        <h4 class="pt-3 pb-4">New patient registration</h4>
+        <form [formGroup]="patientForm" (ngSubmit)="PostPatient(patientForm)">
+          <div class="form-group">
+            <input class="form-control mb-3 col-md-6 border-0" type="text" formControlName="name" placeholder="Name" required>
+            <br>
+            <input class="form-control mb-3 col-md-6 border-0" type="text" formControlName="surname" name="surname" placeholder="Surname" required>
+            <br>
+          </div>
+          <div class="form-group">
+            <select formControlName="id_doctor" class="col-md-6" required>
+              <option *ngFor="let prd of DoctorList | async" [ngValue]="prd.id_doctors">{{prd.name}}{{prd.surname}}</option>
+            </select>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary col-md-6" [disabled]="patientForm.invalid">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container-tables">
+    <div class="tables">
+      <div class="all-patients text-center col-md-6 mt-4">
+        <h4 class="pt-3 pb-4">All Patients</h4>
+        <ng-container *ngIf="isContentAllPatients">
+          <table class="d-flex justify-content-center">
+            <tbody>
+              <tr *ngFor="let patient of patientList | async">
+                <td>{{patient.name}} {{patient.surname}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <button class="btn btn-info mt-3" (click)="showHideContent(1)">
+          {{ isContentAllPatients ? 'Hide Patients' : 'Show Patients' }}
+        </button>
+      </div>
+      <div class="patient-doctor text-center col-md-6 mt-4">
+        <h4 class="pt-3 pb-4">Patients Doctors</h4>
+        <ng-container *ngIf="isContentPatientsDoc">
+          <table class="d-flex justify-content-center">
+            <tbody>
+              <tr *ngFor="let patient of patientList | async">
+                <td>{{patient.name}}{{patient.surname}}</td>
+                <td>{{patient.id_doctor}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <button class="btn btn-info mt-3" (click)="showHideContent(2)">
+          {{ isContentPatientsDoc ? 'Show Less' : 'Show Less' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
